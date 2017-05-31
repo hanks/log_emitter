@@ -20,6 +20,7 @@ in generating the latest log message for you repeatedly
     ts_re: "[0-9]{4}/[0-9]{2}/[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}"
     ts_format: "2006/01/02 15:04:05"
     interval: 4
+    enable: true
 ```
 
 Also use `goroutine`, `channel` and `Ticker` to implement repeated log generation.
