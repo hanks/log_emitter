@@ -29,3 +29,14 @@ func BenchmarkLogEmitter_updateTimestamp(b *testing.B) {
 		l.updateTimestamp(raw, ts_re, ts_format, t1)
 	}
 }
+
+func BenchmarkLogEmitter_isEnable(b *testing.B) {
+	b.StopTimer()
+	var l LogEmitter
+	b.StartTimer()
+
+	for i := 0; i < b.N; i++ {
+		input := "true"
+		l.isEnable(input)
+	}
+}

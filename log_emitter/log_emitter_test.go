@@ -37,3 +37,39 @@ func TestLogEmitter_updateTimestamp(t *testing.T) {
 		t.Error("updateTimestamp does not work as expect.", "result:", result, "expect:", expect)
 	}
 }
+
+func TestLogEmitter_isEnable(t *testing.T) {
+	var l LogEmitter
+
+	input := "True"
+	result := l.isEnable(input)
+	expect := true
+
+	if result != expect {
+		t.Error("isEnable does not work as expect.", "result:", result, "expect:", expect)
+	}
+
+	input = "False"
+	result = l.isEnable(input)
+	expect = false
+
+	if result != expect {
+		t.Error("isEnable does not work as expect.", "result:", result, "expect:", expect)
+	}
+
+	input = "true"
+	result = l.isEnable(input)
+	expect = true
+
+	if result != expect {
+		t.Error("isEnable does not work as expect.", "result:", result, "expect:", expect)
+	}
+
+	input = "false"
+	result = l.isEnable(input)
+	expect = false
+
+	if result != expect {
+		t.Error("isEnable does not work as expect.", "result:", result, "expect:", expect)
+	}
+}

@@ -1,6 +1,6 @@
 BINARY=log_emitter
 
-VERSION=1.0.0
+VERSION=1.1.0
 BUILD=`git rev-parse HEAD`
 
 LDFLAGS=-ldflags "-X main.Version=${VERSION} -X main.Build=${BUILD}"
@@ -26,4 +26,3 @@ clean:
 	if [ -f ${BINARY}.linux64 ]; then rm ${BINARY}.linux64 ; fi
         
 .PHONY: clean, build
-

@@ -9,6 +9,8 @@ import (
 	"path/filepath"
 	"regexp"
 	"time"
+	"strings"
+	"sync"
 )
 
 func check(e error) {
@@ -25,6 +27,7 @@ type LogItem struct {
 	TS_RE     string
 	TS_FORMAT string
 	INTERVAL  int
+	ENABLE    string
 }
 
 type LogEmitter struct {
@@ -83,23 +86,35 @@ func (le *LogEmitter) generateLog(item LogItem) {
 	}
 }
 
-func (le *LogEmitter) Execute() {
-	quit := make(chan string)
-
-	for _, v := range le.LOGS {
-		ticker := time.NewTicker(time.Second * time.Duration(v.INTERVAL))
-		go func(item LogItem) {
-			for {
-				select {
-				case <-ticker.C:
-					le.generateLog(item)
-				case <-quit:
-					ticker.Stop()
-					return
-				}
-			}
-		}(v)
+func (le *LogEmitter) isEnable(input string) bool {
+	if strings.ToLower(input) == "true" {
+		return true
 	}
 
-	<-quit
+	return false
+}
+
+func (le *LogEmitter) Execute() {
+	var wg sync.WaitGroup
+
+	for _, v := range le.LOGS {
+		if le.isEnable(v.ENABLE) {
+			log.Printf("%s log is enabled.\n", v.CATEGORY)
+			wg.Add(1)
+			ticker := time.NewTicker(time.Second * time.Duration(v.INTERVAL))
+			go func(item LogItem) {
+				defer wg.Done()
+				for {
+					select {
+					case <-ticker.C:
+						le.generateLog(item)
+					}
+				}
+			}(v)
+		} else {
+			log.Printf("%s log is disabled.\n", v.CATEGORY)
+		}
+	}
+
+	wg.Wait()
 }
