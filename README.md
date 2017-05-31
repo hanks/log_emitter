@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/hanks/log_emitter.svg?branch=master)](https://travis-ci.org/hanks/log_emitter)
+
 # Log Emitter
 
 A tiny tool to auto-generate logs to help to test the whole pipeline of ELK stack
